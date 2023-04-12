@@ -1,40 +1,63 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      nome: '',
+      input: ''
+    }
+
+    this.entrar = this.entrar.bind(this)
+  }
+
+  entrar() {
+    if(this.state.input === '') {
+      alert("Insira seu nome");
+      return
+    }
+    this.setState({ nome: `Bem-vindo: ${this.state.input}`})
+  }
+
   render() {
     return (
-      <View style={{
-        // Exercício 1,Vamos usar na prop justifyContent o 
-        // space-between ( Fazer com tenha espaço iguais entre eles ): 
-          // flex: 1, 
-          // flexDirection: 'row', 
-          // justifyContent:"space-between",
+      <View style={styles.container}>
+        
+        <TextInput
+          style={styles.input}
+          placeholder='Digite seu nome'
+          onChangeText={(e) => this.setState({input: e})}
+          underlineColorAndroid='transparent'
+        />
 
-        // Exercício 2, Vamos usar agora na prop justifyContent o space-around 
-        // ( Fazer com tenha espaços iguais entre eles mas tambem ao redor ):
-          // flex: 1,
-          // flexDirection: 'row',
-          // justifyContent: 'space-around'
+        <Button title='Entrar' onPress={this.entrar}/>
 
-        // Exercício 3, Vamos agora usar uma prop nova dentro
-        // do alignItems o stretch ( Para essa prop funcionar
-        // as views filhas não podem ter largura FIXA ) Vamos lá:
-          flex: 1,
-          flexDirection: 'column',
-          alignItems: 'stretch'
-        }}
-      >
-
-        <View style={{ width: 100, height: 50, backgroundColor: 'red'}}></View>
-
-        <View style={{ width: 50, height: 50, backgroundColor: 'blue'}}></View>
-
-        <View style={{ width: 50, height: 50, backgroundColor: 'green'}}></View>
+        <Text>{this.state.nome}</Text>
       </View>
     )
   }
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex:1
+  },
+  
+  input: {
+    height: 45,
+    borderWidth: 1,
+    borderColor: '#fff',
+    margin: 10,
+    fontSize: 20,
+    padding: 10
+  },
+  
+  texto: {
+    textAlign: 'center',
+    fontSize: 25
+  }
+})
 
 export default App;
