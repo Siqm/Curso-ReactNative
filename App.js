@@ -1,32 +1,36 @@
 import React, { Component } from 'react'
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, Button } from 'react-native'
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      nome: ''
+    }
+
+    this.entrar = this.entrar.bind(this)
+  }
+
+  entrar(nome) {
+    this.setState({
+      nome: nome
+    })
+  }
+
   render() {
     return (
       <View>
-        <Text>Hello world</Text>
-        <Text style={{ color: 'red', backgroundColor: "white"}}>Estilos</Text>
 
-        <Jobs largura={300} altura={500}/>
-        
+        <Button title='Entrar' onPress={() => this.entrar('Rafael')}/>
+
+        <Text style={{ fontSize:25, textAlign: "center", marginTop:10}}>
+          {this.state.nome}
+        </Text>
       </View>
     )
   }
 }
 
-class Jobs extends Component {
-  render() {
-  
-    let img = 'https://sujeitoprogramador.com/steve.png'
-
-    return (
-      <Image 
-        source={{ uri: img}}
-        style={{ width: this.props.largura, height: this.props.altura}}
-      />
-    )
-  }
-}
 
 export default App;
