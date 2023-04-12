@@ -1,32 +1,30 @@
 import React, { Component } from 'react'
-import { View, Text, Image, Button } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop:40
+  },
+
+  textoPrincipal: {
+    fontSize: 25,
+    color: 'red'
+  },
+
+  alinhaTexto: {
+    textAlign: 'center'
+  }
+})
 
 class App extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      nome: ''
-    }
-
-    this.entrar = this.entrar.bind(this)
-  }
-
-  entrar(nome) {
-    this.setState({
-      nome: nome
-    })
-  }
-
   render() {
     return (
-      <View>
+      <View style={styles.container}>
 
-        <Button title='Entrar' onPress={() => this.entrar('Rafael')}/>
-
-        <Text style={{ fontSize:25, textAlign: "center", marginTop:10}}>
-          {this.state.nome}
-        </Text>
+        <Text style={[styles.textoPrincipal, styles.alinhaTexto]}>Texto 1</Text>
+        <Text>Texto 2</Text>
+        <Text>Texto 3</Text>
+        <Text style={styles.textoPrincipal}>Texto 4</Text>
       </View>
     )
   }
