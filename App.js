@@ -1,40 +1,50 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
+import { View, StyleSheet, Image, TouchableOpacity, Text } from 'react-native'
 
 class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      nome: '',
-      input: ''
+      textoFrase: 'A vida trará coisas boas se tiver paciência.',
+      img: require("./src/biscoito.png")
     }
 
-    this.entrar = this.entrar.bind(this)
+    this.quebraBiscoito = this.quebraBiscoito.bind(this)
+
+    this.frases = [
+      'A vida trará coisas boas se tiver paciência.',
+      'Demonstre amor e alegria em todas as oportunidades e verá que a paz nasce dentro de si.',
+      'Não compense na ira o que lhe falta na razão.',
+      'Defeitos e virtudes são apenas dois lados da mesma moeda.',
+      'A maior de todas as torres começa no solo.',
+    ]
   }
 
-  entrar() {
-    if(this.state.input === '') {
-      alert("Insira seu nome");
-      return
-    }
-    this.setState({ nome: `Bem-vindo: ${this.state.input}`})
+  quebraBiscoito() {
+    let numeroAleatorio = Math.floor(Math.random() * this.frases.length);
+
+    this.setState({ 
+      textoFrase: this.frases[numeroAleatorio],
+      img: require("./src/biscoitoAberto.png")
+    })
   }
 
   render() {
     return (
       <View style={styles.container}>
-        
-        <TextInput
-          style={styles.input}
-          placeholder='Digite seu nome'
-          onChangeText={(e) => this.setState({input: e})}
-          underlineColorAndroid='transparent'
+        <Image
+          style={styles.img}
+          source={this.state.img}
         />
 
-        <Button title='Entrar' onPress={this.entrar}/>
+        <Text style={styles.textoFrase}>{this.state.textoFrase}</Text>
 
-        <Text>{this.state.nome}</Text>
+        <TouchableOpacity style={styles.botao} onPress={this.quebraBiscoito}>
+          <View style={styles.btnArea}>
+            <Text style={styles.btnTexto}>Quebrar biscoito</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     )
   }
@@ -42,21 +52,37 @@ class App extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex:1
+    flex:1,
+    alignItems:'center',
+    justifyContent:'center'
   },
-  
-  input: {
-    height: 45,
-    borderWidth: 1,
-    borderColor: '#fff',
-    margin: 10,
+  img: {
+    width: 250,
+    height: 250
+  },
+  textoFrase: {
     fontSize: 20,
-    padding: 10
+    color:'#dd7b22',
+    margin:30,
+    fontStyle:'italic',
+    textAlign:'center'
   },
-  
-  texto: {
-    textAlign: 'center',
-    fontSize: 25
+  botao: {
+    width: 230,
+    height:50,
+    borderWidth: 2,
+    borderColor: '#dd7b22',
+    borderRadius: 25,
+  },
+  btnArea: {
+    flex:1,
+    alignItems:'center',
+    justifyContent: 'center'
+  },
+  btnTexto: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#dd7b22'
   }
 })
 
