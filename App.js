@@ -6,45 +6,83 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      textoFrase: 'A vida trará coisas boas se tiver paciência.',
-      img: require("./src/biscoito.png")
+      numero: 0,
+      botao: "VAI",
+      ultimo: 0.0
     }
 
-    this.quebraBiscoito = this.quebraBiscoito.bind(this)
-
-    this.frases = [
-      'A vida trará coisas boas se tiver paciência.',
-      'Demonstre amor e alegria em todas as oportunidades e verá que a paz nasce dentro de si.',
-      'Não compense na ira o que lhe falta na razão.',
-      'Defeitos e virtudes são apenas dois lados da mesma moeda.',
-      'A maior de todas as torres começa no solo.',
-    ]
+    this.timer = null
+    this.vai = this.vai.bind(this);
+    this.limpar = this.limpar.bind(this);
   }
 
-  quebraBiscoito() {
-    let numeroAleatorio = Math.floor(Math.random() * this.frases.length);
+  vai() {
 
-    this.setState({ 
-      textoFrase: this.frases[numeroAleatorio],
-      img: require("./src/biscoitoAberto.png")
+    if (this.timer != null) {
+      // Aqui para o timer
+
+      clearInterval(this.timer)
+      this.timer = null;
+      this.setState({ botao: "VAI" })
+
+    } else {
+      // Aqui faz o timer girar
+
+      this.timer = setInterval(() => {
+        this.setState({ numero: this.state.numero + 0.1 })
+      }, 100)
+      this.setState({ botao: "PARAR" })
+    }
+
+
+  }
+
+  limpar() {
+    if (this.timer != null) {
+
+      clearInterval(this.timer)
+      this.timer = null;
+    }
+    this.setState({
+      ultimo: this.state.numero,
+      numero: 0,
+      botao: "VAI"
     })
   }
 
   render() {
     return (
       <View style={styles.container}>
+
         <Image
-          style={styles.img}
-          source={this.state.img}
+          source={require('./src/cronometro.png')}
+          style={styles.cronometro}
         />
 
-        <Text style={styles.textoFrase}>{this.state.textoFrase}</Text>
+        <Text style={styles.timer}>{this.state.numero.toFixed(1)}</Text>
 
-        <TouchableOpacity style={styles.botao} onPress={this.quebraBiscoito}>
-          <View style={styles.btnArea}>
-            <Text style={styles.btnTexto}>Quebrar biscoito</Text>
-          </View>
-        </TouchableOpacity>
+        <View style={styles.btnArea}>
+          <TouchableOpacity style={styles.btn} onPress={this.vai}>
+            <Text style={styles.btnTexto}>{this.state.botao}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.btn} >
+            <Text style={styles.btnTexto} onPress={this.limpar}>LIMPAR</Text>
+          </TouchableOpacity>
+
+
+        </View>
+
+        <View style={styles.areaUltima}>
+
+          <Text style={styles.textoCorrida}>
+            {this.state.ultimo > 0 ? 
+              `Último tempo: ${this.state.ultimo.toFixed(2)}` : ''
+            }
+          </Text>
+
+        </View>
+
       </View>
     )
   }
@@ -52,37 +90,40 @@ class App extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
-    alignItems:'center',
-    justifyContent:'center'
-  },
-  img: {
-    width: 250,
-    height: 250
-  },
-  textoFrase: {
-    fontSize: 20,
-    color:'#dd7b22',
-    margin:30,
-    fontStyle:'italic',
-    textAlign:'center'
-  },
-  botao: {
-    width: 230,
-    height:50,
-    borderWidth: 2,
-    borderColor: '#dd7b22',
-    borderRadius: 25,
-  },
-  btnArea: {
-    flex:1,
-    alignItems:'center',
+    flex: 1,
+    alignItems: 'center',
     justifyContent: 'center'
   },
+  timer: {
+    marginTop: -180,
+    color: '#FFF',
+    fontSize: 65,
+    fontWeight: 'bold'
+  },
+  btnArea: {
+    flexDirection: 'row',
+    marginTop: 70,
+    height: 40,
+  },
+  btn: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#145234',
+    height: 40,
+    margin: 17,
+    borderRadius: 9
+  },
   btnTexto: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#dd7b22'
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+  areaUltima: {
+    marginTop: 40,
+  },
+  textoCorrida: {
+    fontSize: 25,
+    fontStyle: 'italic',
   }
 })
 
