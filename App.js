@@ -1,87 +1,34 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Image, TouchableOpacity, Text } from 'react-native'
+import { View, StyleSheet, Image, TouchableOpacity, Text, ScrollView, FlatList } from 'react-native'
 
 class App extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      numero: 0,
-      botao: "VAI",
-      ultimo: 0.0
+      data: [
+        {name: "Rafael", idade: 23, email:"rafael@native.com"},
+        {name: "Cleiton", idade: 23, email:"cleiton@native.com"},
+        {name: "Fabiano", idade: 23, email:"indio@native.com"},
+        {name: "Saito?", idade: 23, email:"saito-sama@native.com"},
+      ]
     }
-
-    this.timer = null
-    this.vai = this.vai.bind(this);
-    this.limpar = this.limpar.bind(this);
-  }
-
-  vai() {
-
-    if (this.timer != null) {
-      // Aqui para o timer
-
-      clearInterval(this.timer)
-      this.timer = null;
-      this.setState({ botao: "VAI" })
-
-    } else {
-      // Aqui faz o timer girar
-
-      this.timer = setInterval(() => {
-        this.setState({ numero: this.state.numero + 0.1 })
-      }, 100)
-      this.setState({ botao: "PARAR" })
-    }
-
-
-  }
-
-  limpar() {
-    if (this.timer != null) {
-
-      clearInterval(this.timer)
-      this.timer = null;
-    }
-    this.setState({
-      ultimo: this.state.numero,
-      numero: 0,
-      botao: "VAI"
-    })
   }
 
   render() {
     return (
       <View style={styles.container}>
+        {/* <ScrollView>
+          <View style={styles.box1}></View>
+          <View style={styles.box2}></View>
+          <View style={styles.box3}></View>
+          <View style={styles.box4}></View>
+        </ScrollView> */}
 
-        <Image
-          source={require('./src/cronometro.png')}
-          style={styles.cronometro}
+        <FlatList 
+          data = {this.state.data}
+          keyExtractor={(item) => item.nome} // 'key' or 'id' são identificado automaticamente
+          renderItem={ ({ item }) => <Pessoa data={ item }/> }
         />
-
-        <Text style={styles.timer}>{this.state.numero.toFixed(1)}</Text>
-
-        <View style={styles.btnArea}>
-          <TouchableOpacity style={styles.btn} onPress={this.vai}>
-            <Text style={styles.btnTexto}>{this.state.botao}</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.btn} >
-            <Text style={styles.btnTexto} onPress={this.limpar}>LIMPAR</Text>
-          </TouchableOpacity>
-
-
-        </View>
-
-        <View style={styles.areaUltima}>
-
-          <Text style={styles.textoCorrida}>
-            {this.state.ultimo > 0 ? 
-              `Último tempo: ${this.state.ultimo.toFixed(2)}` : ''
-            }
-          </Text>
-
-        </View>
 
       </View>
     )
@@ -89,42 +36,47 @@ class App extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
+  box1: {
+    backgroundColor: "#FFaa00",
+    height: 250
   },
-  timer: {
-    marginTop: -180,
-    color: '#FFF',
-    fontSize: 65,
-    fontWeight: 'bold'
+
+  box2: {
+    backgroundColor: "#FF0000",
+    height: 250
   },
-  btnArea: {
-    flexDirection: 'row',
-    marginTop: 70,
-    height: 40,
+
+  box3: {
+    backgroundColor: "#00FF00",
+    height: 250
   },
-  btn: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#145234',
-    height: 40,
-    margin: 17,
-    borderRadius: 9
+
+  box4: {
+    backgroundColor: "#0000FF",
+    height: 250
   },
-  btnTexto: {
-    fontSize: 20,
-    fontWeight: 'bold'
+
+  areaPessoa: {
+    backgroundColor: '#000044',
+    height: 200,
+    marginBottom: 15
   },
-  areaUltima: {
-    marginTop: 40,
-  },
-  textoCorrida: {
-    fontSize: 25,
-    fontStyle: 'italic',
+
+  textoPessoa: {
+    fontSize: 20
   }
 })
 
 export default App;
+
+class Pessoa extends Component {
+  render() {
+    return (
+      <View style={styles.areaPessoa}>
+        <Text style={styles.textoPessoa}>Nome: {this.props.data.name}</Text>
+        <Text style={styles.textoPessoa}>Email: {this.props.data.email}</Text>
+        <Text style={styles.textoPessoa}>Idade: {this.props.data.idade}</Text>
+      </View>
+    )
+  }
+}
