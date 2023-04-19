@@ -1,4 +1,4 @@
-import { Picker } from '@react-native-picker/picker';
+import Slider from '@react-native-community/slider';
 import React, { Component } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 
@@ -6,35 +6,24 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pizza: 0,
-      pizzas: [
-        {key:1, name: 'Marguerita', value: 39.90},
-        {key:2, name: 'Quatro queijos', value: 37.90},
-        {key:3, name: 'Pepperoni', value: 45.90},
-        {key:4, name: 'Carijó', value: 40.90},
-        {key:5, name: 'Moda do chefe', value: 37.90},
-      ]
+      value: 50
     }
   }
 
   render() {
 
-    let itemPizzas = this.state.pizzas.map((item, index) => {
-      return <Picker.Item key={index} value={index} label={item.name}/>
-    })
     return (
       <View style={styles.container}>
-        <Text style={styles.logo}>Menu Pizza</Text>
-
-        <Picker
-          selectedValue={this.state.pizza}
-          onValueChange={ (itemValue, itemIndex) => this.setState({pizza: itemValue})}
-        >
-          {itemPizzas}
-        </Picker>
-
-        <Text style={styles.pizzas}>Você escolhe: {this.state.pizzas[this.state.pizza].name}</Text>
-        <Text style={styles.pizzas}>R$: {this.state.pizzas[this.state.pizza].value.toFixed(2)}</Text>
+        <Slider
+          minimumValue={0}
+          maximumValue={100}
+          onValueChange={ (selectedValue) => this.setState({value: selectedValue})}
+          step={1}
+          value={this.state.value}
+          minimumTrackTintColor='#0000FF'
+          maximumTrackTintColor='#FF0000'
+        />
+        <Text style={{fontSize: 30, textAlign: 'center'}}>{this.state.value}</Text>
       </View>
     )
   }
@@ -45,15 +34,4 @@ const styles = StyleSheet.create({
     flex:1,
     marginTop:20,
   },
-
-  logo: {
-    textAlign: 'center',
-    fontSize: 28,
-    fontWeight: 'bold'
-  },
-  pizzas: {
-    marginTop: 15,
-    fontSize: 25,
-    textAlign:'center'
-  }
 })
