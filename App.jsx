@@ -1,83 +1,91 @@
-import { Picker } from '@react-native-picker/picker';
-import React, { Component } from 'react';
-import { View, StyleSheet, Text, Switch, TextInput, Button, ImageBackground } from 'react-native';
-import Slider from '@react-native-community/slider'
+import React from 'react';
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  ImageBackground,
+  TouchableOpacity,
+  Text
+} from 'react-native';
+import CustomButton from './src/components/CustomButton';
+import Input from './src/components/Input';
 
-export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      nome: '',
-      idade: '',
-      sexo: 'homem',
-      limite: 50,
-      estudante: false,
-    }
-  }
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <ImageBackground
+        source={require('./public/background.png')}
+        style={styles.image}
+      >
+        <View>
 
-  
+          <ImageBackground
+            resizeMode='contain'
+            source={require('./public/logoFree.png')}
+            style={styles.logo}
+          ></ImageBackground>
 
-  render() {
+          <Input
+            placeholder='Email'
+          />
+          <Input
+            placeholder='Password'
+          />
 
-    const image = require('./src/components/background/background.png');
+          <CustomButton title="Login"/>
 
-    return (
-      <View style={styles.container}>
-        <ImageBackground source={image} resizeMode='stretch' style={styles.image}>
-          <Text>Siq Banco</Text>
+          <TouchableOpacity style={{ marginTop: 150 }}>
+            <Text style={styles.red}>Esqueci minha senha</Text>
+          </TouchableOpacity>
 
-          <View>
-            <TextInput
-              placeholder='Insira seu nome'
-            // onChange={}
-            />
+          <View style={styles.teste}>
 
-            <TextInput
-              placeholder='Insira sua idade'
-            // onChange={}
-            />
+            <Text style={styles.subtitle}>Ainda não é membro? </Text>
+            <TouchableOpacity>
+              <Text style={styles.red}>Registre-se</Text>
+            </TouchableOpacity>
 
-            <Text>Selecione seu sexo:</Text>
-            <Picker
-              selectedValue={this.state.sexo}
-              onValueChange={(valor) => this.setState({ sexo: valor })}
-            >
-              <Picker.Item label='Homem' value='homem' />
-              <Picker.Item label='Mulher' value='mulher' />
-            </Picker>
-
-            <Text>Selecione o limite da conta:</Text>
-            <Slider
-              minimumValue={50}
-              maximumValue={2000}
-              step={100}
-            // onValueChange={}
-            // value={}
-            />
-
-            <Text>Você é estudante?</Text>
-            <Switch
-            // onValueChange={}
-            />
-
-            {/* <Button
-              // onPress={}
-              title='Criar conta'
-              color='#841584'
-            /> */}
           </View>
-        </ImageBackground>
-      </View>
-    )
-  }
+        </View>
+      </ImageBackground>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    borderWidth: 2,
+    color: '#afafaf',
+    fontFamily: 'Poppins'
   },
 
   image: {
-    flex: 1,
+    flex: 1
+  },
+
+  logo: {
+    width: 135,
+    height: 72,
+    marginTop: 125,
+    justifyContent: 'center',
+    marginLeft: 127,
+    marginBottom: 60
+  },
+
+  red: {
+    color: '#D53333',
+    textAlign: 'center'
+  },
+
+  teste : {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent:'center',
+  },
+
+  subtitle: {
+    color: '#5A5A5A'
   }
+
 })
